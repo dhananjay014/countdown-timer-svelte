@@ -147,7 +147,7 @@
         cy={size/2}
         r={radius}
         fill="none"
-        stroke={$settings.darkMode ? '#2a2a4a' : '#e8e8e8'}
+        stroke="var(--border-color, #e0e0e0)"
         stroke-width={strokeWidth}
       />
       <circle

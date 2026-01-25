@@ -1,5 +1,11 @@
 <script>
   import { settings } from '../stores/settings.js';
+
+  const themeOptions = [
+    { label: 'System', value: 'system' },
+    { label: 'Light', value: 'light' },
+    { label: 'Dark', value: 'dark' }
+  ];
 </script>
 
 <footer>
@@ -26,10 +32,19 @@
       <span class="volume-value">{$settings.volume}%</span>
     </div>
 
-    <button class="theme-toggle" on:click={() => settings.toggleDarkMode()}>
-      <span class="theme-icon">{$settings.darkMode ? '☀️' : '🌙'}</span>
-      {$settings.darkMode ? 'Light' : 'Dark'}
-    </button>
+    <div class="theme-control">
+      <span class="theme-label">Theme</span>
+      <div class="theme-options">
+        {#each themeOptions as option}
+          <button
+            class:selected={$settings.themePreference === option.value}
+            on:click={() => settings.setThemePreference(option.value)}
+          >
+            {option.label}
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
 
   <p class="credit">Built with Svelte + Vite</p>
@@ -94,26 +109,43 @@
     min-width: 40px;
   }
 
-  .theme-toggle {
+  .theme-control {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--bg-secondary, #f5f5f5);
-    border: 1px solid var(--border-color, #e0e0e0);
-    border-radius: 8px;
-    padding: 8px 16px;
+    flex-wrap: wrap;
+  }
+
+  .theme-label {
     font-size: 14px;
     color: var(--text-secondary, #666);
+  }
+
+  .theme-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .theme-options button {
+    border: 1px solid var(--border-color, #e0e0e0);
+    background: var(--bg-secondary, #f5f5f5);
+    color: var(--text-secondary, #666);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s;
   }
 
-  .theme-toggle:hover {
+  .theme-options button:hover {
     background: var(--border-color, #eee);
   }
 
-  .theme-icon {
-    font-size: 16px;
+  .theme-options button.selected {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
   }
 
   .credit {

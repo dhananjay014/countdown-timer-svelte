@@ -4,12 +4,12 @@
   import TimersList from './lib/components/TimersList.svelte';
   import EventsList from './lib/components/EventsList.svelte';
   import Footer from './lib/components/Footer.svelte';
-  import { settings } from './lib/stores/settings.js';
+  import { themeMode } from './lib/stores/settings.js';
 
   let activeTab = 'timers';
 </script>
 
-<main class:dark={$settings.darkMode}>
+<main class:dark={$themeMode === 'dark'}>
   <Header />
   <TabNav bind:activeTab />
 
