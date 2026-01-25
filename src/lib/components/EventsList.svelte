@@ -64,7 +64,7 @@
   h2 {
     font-size: 24px;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary, #333);
     margin: 0;
   }
 
@@ -83,13 +83,13 @@
   }
 
   .btn.clear {
-    background: white;
-    color: #666;
-    border: 1px solid #e0e0e0;
+    background: var(--bg-card, white);
+    color: var(--text-secondary, #666);
+    border: 1px solid var(--border-color, #e0e0e0);
   }
 
   .btn.clear:hover {
-    background: #f5f5f5;
+    background: var(--bg-secondary, #f5f5f5);
   }
 
   .btn.add {
@@ -110,11 +110,11 @@
   }
 
   .empty-card {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 16px;
     padding: 50px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px var(--shadow-color, rgba(0,0,0,0.08));
     max-width: 600px;
     width: 100%;
   }
@@ -128,12 +128,12 @@
   .empty-card h3 {
     font-size: 20px;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary, #333);
     margin: 0 0 8px;
   }
 
   .empty-card p {
-    color: #666;
+    color: var(--text-secondary, #666);
     font-size: 15px;
     margin: 0 0 24px;
   }

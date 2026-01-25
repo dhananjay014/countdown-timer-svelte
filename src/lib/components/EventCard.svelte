@@ -88,10 +88,10 @@
 
 <style>
   .card {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px var(--shadow-color, rgba(0,0,0,0.08));
     width: 100%;
     max-width: 400px;
   }
@@ -105,7 +105,7 @@
   .event-name {
     font-size: 18px;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary, #333);
   }
 
   .delete-btn {
@@ -129,7 +129,7 @@
   }
 
   .target-date {
-    color: #888;
+    color: var(--text-muted, #888);
     font-size: 13px;
     margin: 8px 0 20px;
   }
@@ -156,13 +156,13 @@
   .label {
     display: block;
     font-size: 12px;
-    color: #888;
+    color: var(--text-muted, #888);
     margin-top: 4px;
   }
 
   .separator {
     font-size: 28px;
-    color: #ccc;
+    color: var(--border-color, #ccc);
     margin-bottom: 20px;
   }
 

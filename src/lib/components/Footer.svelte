@@ -25,6 +25,11 @@
       />
       <span class="volume-value">{$settings.volume}%</span>
     </div>
+
+    <button class="theme-toggle" on:click={() => settings.toggleDarkMode()}>
+      <span class="theme-icon">{$settings.darkMode ? '☀️' : '🌙'}</span>
+      {$settings.darkMode ? 'Light' : 'Dark'}
+    </button>
   </div>
 
   <p class="credit">Built with Svelte + Vite</p>
@@ -32,8 +37,8 @@
 
 <style>
   footer {
-    background: white;
-    border-top: 1px solid #e0e0e0;
+    background: var(--bg-card, white);
+    border-top: 1px solid var(--border-color, #e0e0e0);
     padding: 14px 20px;
   }
 
@@ -51,7 +56,7 @@
     gap: 8px;
     cursor: pointer;
     font-size: 14px;
-    color: #666;
+    color: var(--text-secondary, #666);
   }
 
   .sound-toggle input[type="checkbox"] {
@@ -73,7 +78,7 @@
 
   .speaker {
     font-size: 16px;
-    color: #666;
+    color: var(--text-secondary, #666);
   }
 
   input[type="range"] {
@@ -85,14 +90,36 @@
 
   .volume-value {
     font-size: 14px;
-    color: #666;
+    color: var(--text-secondary, #666);
     min-width: 40px;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary, #f5f5f5);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--text-secondary, #666);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .theme-toggle:hover {
+    background: var(--border-color, #eee);
+  }
+
+  .theme-icon {
+    font-size: 16px;
   }
 
   .credit {
     text-align: center;
     font-size: 12px;
-    color: #999;
+    color: var(--text-muted, #999);
     margin-top: 10px;
   }
 </style>

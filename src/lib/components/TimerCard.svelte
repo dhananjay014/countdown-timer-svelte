@@ -147,7 +147,7 @@
         cy={size/2}
         r={radius}
         fill="none"
-        stroke="#e8e8e8"
+        stroke={$settings.darkMode ? '#2a2a4a' : '#e8e8e8'}
         stroke-width={strokeWidth}
       />
       <circle
@@ -180,10 +180,10 @@
 
 <style>
   .card {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px var(--shadow-color, rgba(0,0,0,0.08));
     width: 290px;
     transition: box-shadow 0.2s ease;
   }
@@ -201,7 +201,7 @@
   }
 
   .timer-name {
-    color: #666;
+    color: var(--text-secondary, #666);
     font-size: 15px;
     font-weight: 500;
     background: none;
@@ -219,14 +219,15 @@
   }
 
   .timer-name:hover {
-    background: #f5f5f5;
+    background: var(--bg-secondary, #f5f5f5);
   }
 
   .name-input {
     flex: 1;
     font-size: 15px;
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary, #333);
+    background: var(--bg-card, white);
     padding: 4px 8px;
     border: 1px solid #667eea;
     border-radius: 4px;
@@ -267,7 +268,7 @@
     position: absolute;
     font-size: 32px;
     font-weight: 300;
-    color: #333;
+    color: var(--text-primary, #333);
     letter-spacing: 2px;
   }
 
@@ -298,12 +299,12 @@
   }
 
   .btn.secondary {
-    background: #f5f5f5;
-    color: #666;
-    border: 1px solid #e0e0e0;
+    background: var(--bg-secondary, #f5f5f5);
+    color: var(--text-secondary, #666);
+    border: 1px solid var(--border-color, #e0e0e0);
   }
 
   .btn.secondary:hover {
-    background: #eee;
+    background: var(--border-color, #eee);
   }
 </style>

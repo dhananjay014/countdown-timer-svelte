@@ -22,8 +22,8 @@
 <style>
   nav {
     display: flex;
-    background: white;
-    border-bottom: 1px solid #e0e0e0;
+    background: var(--bg-card, white);
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
   }
 
   .tab {
@@ -35,7 +35,7 @@
     cursor: pointer;
     font-size: 15px;
     font-weight: 500;
-    color: #666;
+    color: var(--text-secondary, #666);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,7 +44,7 @@
   }
 
   .tab:hover {
-    background: #f8f8f8;
+    background: var(--bg-secondary, #f8f8f8);
   }
 
   .tab.active {

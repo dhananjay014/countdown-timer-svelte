@@ -112,7 +112,7 @@
   }
 
   .modal {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 16px;
     padding: 28px;
     width: 100%;
@@ -124,7 +124,7 @@
     text-align: center;
     font-size: 24px;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary, #333);
     margin: 0 0 24px;
   }
 
@@ -136,24 +136,24 @@
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #555;
+    color: var(--text-secondary, #555);
     margin-bottom: 8px;
   }
 
   input {
     width: 100%;
     padding: 14px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
     font-size: 16px;
-    color: #333;
-    background: #f9f9f9;
+    color: var(--text-primary, #333);
+    background: var(--bg-secondary, #f9f9f9);
   }
 
   input:focus {
     outline: none;
     border-color: #667eea;
-    background: white;
+    background: var(--bg-card, white);
   }
 
   .error {
@@ -180,13 +180,13 @@
   }
 
   .btn.cancel {
-    background: #f5f5f5;
-    color: #666;
-    border: 1px solid #e0e0e0;
+    background: var(--bg-secondary, #f5f5f5);
+    color: var(--text-secondary, #666);
+    border: 1px solid var(--border-color, #e0e0e0);
   }
 
   .btn.cancel:hover {
-    background: #eee;
+    background: var(--border-color, #eee);
   }
 
   .btn.submit {
