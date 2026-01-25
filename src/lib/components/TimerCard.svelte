@@ -7,6 +7,8 @@
 
   let displayTime = timer.remaining;
   let interval;
+  let editingName = false;
+  let nameInput = timer.name;
 
   $: progress = timer.duration > 0 ? displayTime / timer.duration : 1;
 
@@ -94,6 +96,26 @@
     timers.remove(timer.id);
   }
 
+  function startEditingName() {
+    nameInput = timer.name;
+    editingName = true;
+  }
+
+  function saveName() {
+    const newName = nameInput.trim() || 'Untitled Timer';
+    timers.setName(timer.id, newName);
+    editingName = false;
+  }
+
+  function handleNameKeydown(e) {
+    if (e.key === 'Enter') {
+      saveName();
+    } else if (e.key === 'Escape') {
+      editingName = false;
+      nameInput = timer.name;
+    }
+  }
+
   $: buttonLabel = timer.status === 'running' ? 'Pause' :
                    timer.status === 'paused' ? 'Resume' :
                    timer.status === 'completed' ? 'Restart' : 'Start';
@@ -101,7 +123,20 @@
 
 <div class="card" class:active={timer.status === 'running'}>
   <div class="card-header">
-    <span class="timer-name">{timer.name}</span>
+    {#if editingName}
+      <input
+        type="text"
+        class="name-input"
+        bind:value={nameInput}
+        on:blur={saveName}
+        on:keydown={handleNameKeydown}
+        autofocus
+      />
+    {:else}
+      <button class="timer-name" on:click={startEditingName} title="Click to edit name">
+        {timer.name}
+      </button>
+    {/if}
     <button class="delete-btn" on:click={handleDelete}>×</button>
   </div>
 
@@ -162,12 +197,41 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    gap: 10px;
   }
 
   .timer-name {
     color: #666;
     font-size: 15px;
     font-weight: 500;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    margin: -4px -8px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .timer-name:hover {
+    background: #f5f5f5;
+  }
+
+  .name-input {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    padding: 4px 8px;
+    border: 1px solid #667eea;
+    border-radius: 4px;
+    outline: none;
+    min-width: 0;
   }
 
   .delete-btn {
@@ -184,6 +248,7 @@
     justify-content: center;
     line-height: 1;
     transition: background 0.2s;
+    flex-shrink: 0;
   }
 
   .delete-btn:hover {

@@ -110,6 +110,14 @@ function createTimersStore() {
         return t;
       }));
     },
+    setName: (id, name) => {
+      update(timers => timers.map(t => {
+        if (t.id === id) {
+          return { ...t, name };
+        }
+        return t;
+      }));
+    },
     clearAll: () => set([])
   };
 }
