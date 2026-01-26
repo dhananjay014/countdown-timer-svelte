@@ -8,7 +8,7 @@
   import SharedEventPage from './lib/components/SharedEventPage.svelte';
   import MigrationModal from './lib/components/MigrationModal.svelte';
   import { themeMode } from './lib/stores/settings.js';
-  import { authStore, isAuthenticated, signOutUser } from './lib/stores/auth.js';
+  import { authStore, isAuthenticated, signOutUser, handleRedirectResult } from './lib/stores/auth.js';
   import { hasLocalData } from './lib/firebase/sync.js';
   import { isFirebaseConfigured } from './lib/firebase/config.js';
 
@@ -31,8 +31,11 @@
     }
   }
 
-  onMount(() => {
+  onMount(async () => {
     parseRoute();
+
+    // Handle redirect result from Google sign-in
+    await handleRedirectResult();
 
     // Listen for navigation events
     window.addEventListener('popstate', parseRoute);

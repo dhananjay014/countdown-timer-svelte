@@ -1,5 +1,5 @@
 import { writable, derived, get } from 'svelte/store';
-import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider } from 'firebase/auth';
+import { onAuthStateChanged, signInWithRedirect, signOut, GoogleAuthProvider, getRedirectResult } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../firebase/config.js';
 
@@ -125,12 +125,29 @@ export async function signInWithGoogle() {
   });
 
   try {
-    const result = await signInWithPopup(auth, provider);
-    return result.user;
+    await signInWithRedirect(auth, provider);
+    // User will be redirected, result handled by getRedirectResult
   } catch (error) {
     console.error('Google sign-in error:', error);
     authStore.setError(error.message);
     throw error;
+  }
+}
+
+// Handle redirect result (call this on app init)
+export async function handleRedirectResult() {
+  if (!isFirebaseConfigured()) return null;
+
+  try {
+    const result = await getRedirectResult(auth);
+    if (result) {
+      return result.user;
+    }
+    return null;
+  } catch (error) {
+    console.error('Redirect result error:', error);
+    authStore.setError(error.message);
+    return null;
   }
 }
 
