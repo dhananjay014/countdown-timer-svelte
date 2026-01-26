@@ -8,6 +8,7 @@ import {
   writeBatch,
   getDocs,
   query,
+  where,
   Timestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from './config.js';
@@ -153,72 +154,32 @@ export function subscribeToUserEvents(userId, callback) {
     return () => {};
   }
 
-  // Subscribe to events collection where user is owner
-  const eventsRef = collection(db, 'events');
+  const eventsRef = query(collection(db, 'events'), where('ownerId', '==', userId));
 
   return onSnapshot(
     eventsRef,
-    async (snapshot) => {
-      const events = [];
-
-      for (const docSnap of snapshot.docs) {
+    (snapshot) => {
+      const events = snapshot.docs.map((docSnap) => {
         const data = docSnap.data();
-
-        // Only include events owned by this user or where they have a ref
-        if (data.ownerId === userId) {
-          events.push({
-            id: docSnap.id,
-            name: data.name,
-            targetDate: timestampToMillis(data.targetDate),
-            createdAt: timestampToMillis(data.createdAt),
-            updatedAt: timestampToMillis(data.updatedAt),
-            // Ownership fields
-            ownerId: data.ownerId,
-            ownerDisplayName: data.ownerDisplayName,
-            isShared: data.isShared || false,
-            shareId: data.shareId || null,
-            visibility: data.visibility || 'private',
-            // Linked copy fields
-            isLinkedCopy: data.isLinkedCopy || false,
-            originalEventId: data.originalEventId || null,
-            originalOwnerId: data.originalOwnerId || null,
-            isOrphaned: data.isOrphaned || false
-          });
-        }
-      }
-
-      // Also check eventRefs for linked copies
-      try {
-        const eventRefsSnap = await getDocs(collection(db, 'users', userId, 'eventRefs'));
-        for (const refDoc of eventRefsSnap.docs) {
-          const refData = refDoc.data();
-          if (!refData.isOwner && refData.eventId) {
-            // Find this event in the snapshot
-            const eventDoc = snapshot.docs.find(d => d.id === refData.eventId);
-            if (eventDoc && !events.find(e => e.id === eventDoc.id)) {
-              const data = eventDoc.data();
-              events.push({
-                id: eventDoc.id,
-                name: data.name,
-                targetDate: timestampToMillis(data.targetDate),
-                createdAt: timestampToMillis(data.createdAt),
-                updatedAt: timestampToMillis(data.updatedAt),
-                ownerId: data.ownerId,
-                ownerDisplayName: data.ownerDisplayName,
-                isShared: data.isShared || false,
-                shareId: data.shareId || null,
-                visibility: data.visibility || 'private',
-                isLinkedCopy: data.isLinkedCopy || false,
-                originalEventId: data.originalEventId || null,
-                originalOwnerId: data.originalOwnerId || null,
-                isOrphaned: data.isOrphaned || false
-              });
-            }
-          }
-        }
-      } catch (error) {
-        console.warn('Error fetching event refs:', error);
-      }
+        return {
+          id: docSnap.id,
+          name: data.name,
+          targetDate: timestampToMillis(data.targetDate),
+          createdAt: timestampToMillis(data.createdAt),
+          updatedAt: timestampToMillis(data.updatedAt),
+          // Ownership fields
+          ownerId: data.ownerId,
+          ownerDisplayName: data.ownerDisplayName,
+          isShared: data.isShared || false,
+          shareId: data.shareId || null,
+          visibility: data.visibility || 'private',
+          // Linked copy fields
+          isLinkedCopy: data.isLinkedCopy || false,
+          originalEventId: data.originalEventId || null,
+          originalOwnerId: data.originalOwnerId || null,
+          isOrphaned: data.isOrphaned || false
+        };
+      });
 
       callback(events);
     },

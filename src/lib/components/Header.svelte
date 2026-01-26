@@ -1,7 +1,6 @@
 <script>
   import AuthButton from './AuthButton.svelte';
-  import UserMenu from './UserMenu.svelte';
-  import { isAuthenticated, isLoading } from '../stores/auth.js';
+  import { currentUser, isAuthenticated, isLoading } from '../stores/auth.js';
   import { isFirebaseConfigured } from '../firebase/config.js';
 </script>
 
@@ -20,7 +19,13 @@
         {#if $isLoading}
           <div class="loading-spinner"></div>
         {:else if $isAuthenticated}
-          <UserMenu />
+          <div class="signed-in">
+            <div class="signed-in-text">
+              <div class="label">Signed in as</div>
+              <div class="value">{$currentUser?.displayName || $currentUser?.email || 'User'}</div>
+            </div>
+            <AuthButton />
+          </div>
         {:else}
           <AuthButton />
         {/if}
@@ -75,6 +80,36 @@
   .auth-area {
     display: flex;
     align-items: center;
+  }
+
+  .signed-in {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .signed-in-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .signed-in-text .label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .signed-in-text .value {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .loading-spinner {
